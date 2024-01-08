@@ -91,7 +91,6 @@ class Tree<T> {
         }
         return visited;
     }
-
     //depth first search
     // Pre-Order DFS
     preOrder(node: TreeNode<T> | null = this.root): T[] {
@@ -113,19 +112,27 @@ class Tree<T> {
         }
         return values;
     }
-
     // Post-Order DFS
     postOrder(node: TreeNode<T> | null = this.root): T[] {
         let values: T[] = [];
-    if (node) {
-        values = values.concat(this.postOrder(node.left));
-        values = values.concat(this.postOrder(node.right));
-        values.push(node.value);
-    }
-    return values;
+        if (node) {
+            values = values.concat(this.postOrder(node.left));
+            values = values.concat(this.postOrder(node.right));
+            values.push(node.value);
+        }
+        return values;
     }
 
+    findHeight(node: TreeNode<T> | null = this.root): number {
+        if (node === null) {
+            return -1;
+        }
+        let leftHeight: number = this.findHeight(node.left!);
+        let rightHeight: number = this.findHeight(node.right!);
 
+        return Math.max(leftHeight, rightHeight) + 1;
+        
+    }
 }
 
 
@@ -144,10 +151,10 @@ function prettyPrint(node: TreeNode<number>, prefix = "", isLeft = true) {
 }
 
 
-const data = [5, 10, 21, 87, 301, 350];
+const data = [5, 10, 21, 87, 301, 350, 408, 34];
 const tree = new Tree();
 tree.buildTree(data);
-// console.log(tree);
+//console.log(tree);
 
 // tree.insert(12);
 // tree.insert(10);
@@ -160,14 +167,15 @@ tree.buildTree(data);
 // tree.insert(8);
 
 //tree.recursivMethod(12);
-console.log("breadthfirst: ", tree.breadthFirst());
-console.log("preorder: ", tree.preOrder());
-console.log("inorder: ", tree.inOrder());
-console.log("postorder: ", tree.postOrder());
+//console.log("breadthfirst: ", tree.breadthFirst());
+// console.log("preorder: ", tree.preOrder());
+// console.log("inorder: ", tree.inOrder());
+// console.log("postorder: ", tree.postOrder());
+console.log("heigt:",tree.findHeight(tree.root!.left!));
 
 
 
-//prettyPrint(tree.root as TreeNode<number>)
+prettyPrint(tree.root as TreeNode<number>)
 
 
 

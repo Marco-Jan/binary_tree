@@ -127,6 +127,14 @@ class Tree {
         }
         return values;
     }
+    findHeight(node = this.root) {
+        if (node === null) {
+            return -1;
+        }
+        let leftHeight = this.findHeight(node.left);
+        let rightHeight = this.findHeight(node.right);
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
 }
 function prettyPrint(node, prefix = "", isLeft = true) {
     if (node.right !== null) {
@@ -137,10 +145,10 @@ function prettyPrint(node, prefix = "", isLeft = true) {
         prettyPrint(node.left, `${prefix}${isLeft ? "|   " : "   "}`, true);
     }
 }
-const data = [5, 10, 21, 87, 301, 350];
+const data = [5, 10, 21, 87, 301, 350, 408, 34];
 const tree = new Tree();
 tree.buildTree(data);
-// console.log(tree);
+//console.log(tree);
 // tree.insert(12);
 // tree.insert(10);
 // tree.insert(2);
@@ -151,9 +159,10 @@ tree.buildTree(data);
 // tree.insert(6);
 // tree.insert(8);
 //tree.recursivMethod(12);
-console.log("breadthfirst: ", tree.breadthFirst());
-console.log("preorder: ", tree.preOrder());
-console.log("inorder: ", tree.inOrder());
-console.log("postorder: ", tree.postOrder());
-//prettyPrint(tree.root as TreeNode<number>)
+//console.log("breadthfirst: ", tree.breadthFirst());
+// console.log("preorder: ", tree.preOrder());
+// console.log("inorder: ", tree.inOrder());
+// console.log("postorder: ", tree.postOrder());
+console.log("heigt:", tree.findHeight(tree.root.left));
+prettyPrint(tree.root);
 //# sourceMappingURL=main.js.map
