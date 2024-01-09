@@ -46,13 +46,15 @@ class WeightedGraph<T, U> {
             this.adjacencyList.get(vertex2)?.push({ node: vertex1, edge: weight });
         }
     }
-    dijkstraSearch(start: Text, end: T) {
+    dijkstraSearch(start: T, end: T) {
         const nodes = new PriorityQueue();
         const distances: { [key: string]: number } = {};
         const previous: { [key: string]: number | null } = {};
         let smallest: T;
         let nextNode: Edge<T, U>;
         let sumOfDist : number;
+
+        this.adjacencyList.forEach((_, key) => {
         if (key === start) {
             distances[key as string] = 0;
             nodes.enqueue(key, 0);
@@ -69,9 +71,9 @@ class WeightedGraph<T, U> {
         if (smallest || distances[smallest as string] !== Infinity) {
 
             for (let neighbor in this.adjacencyList.get(smallest)) {
-                nextNode = this.adjacencyList.get(smallest)?.at(neighbor as string) as Edge<T, U>;
+                nextNode = this.adjacencyList.get(smallest)?.at(neighbor as any) as Edge<T, U>;
                 //calculate Distances
-                sumOfDist = (distances[smallest as string] as any) + nextNode.edge;
+                sumOfDist = (distances[smallest as string] as any) + nextNode?.edge;
                 //update Lists
                 if(sumOfDist < distances[nextNode?.node as string]) {
                     distances[nextNode?.node as string] = sumOfDist;
@@ -85,7 +87,7 @@ class WeightedGraph<T, U> {
 
     }
 }
-
+}
 
 const dijkstragraph = new WeightedGraph();
 
