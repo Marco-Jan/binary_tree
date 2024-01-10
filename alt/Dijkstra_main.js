@@ -43,34 +43,44 @@ class WeightedGraph {
         const previous = {};
         let smallest;
         let nextNode;
+        const path = [];
         let sumOfDist;
-        if (key === start) {
-            distances[key] = 0;
-            nodes.enqueue(key, 0);
-        }
-        else {
-            distances[key] = Infinity;
-            nodes.enqueue(key, Infinity);
-        }
-        previous[key] = null;
-    }
-    ;
-    while(nodes, values, length) {
-        smallest = nodes.dequeue()?.val;
-        if (smallest || distances[smallest] !== Infinity) {
-            for (let neighbor in this.adjacencyList.get(smallest)) {
-                nextNode = this.adjacencyList.get(smallest)?.at(neighbor);
-                //calculate Distances
-                sumOfDist = distances[smallest] + nextNode.edge;
-                //update Lists
-                if (sumOfDist < distances[nextNode?.node]) {
-                    distances[nextNode?.node] = sumOfDist;
-                    previous[nextNode?.node] = smallest;
-                    nodes.enqueue(nextNode.node, sumOfDist);
+        this.adjacencyList.forEach((_, key) => {
+            if (key === start) {
+                distances[key] = 0;
+                nodes.enqueue(key, 0);
+            }
+            else {
+                distances[key] = Infinity;
+                nodes.enqueue(key, Infinity);
+            }
+            previous[key] = null;
+        });
+        while (nodes.values.length) {
+            smallest = nodes.dequeue()?.val;
+            if (smallest === end) {
+                while (previous[smallest]) {
+                    path.push(smallest);
+                    smallest = previous[smallest];
+                }
+                break;
+            }
+            if (smallest || distances[smallest] !== Infinity) {
+                for (let neighbor in this.adjacencyList.get(smallest)) {
+                    nextNode = this.adjacencyList.get(smallest)?.at(neighbor);
+                    //calculate Distances
+                    sumOfDist = distances[smallest] + nextNode?.edge;
+                    //update Lists
+                    if (sumOfDist < distances[nextNode?.node]) {
+                        distances[nextNode?.node] = sumOfDist;
+                        previous[nextNode?.node] = smallest;
+                        nodes.enqueue(nextNode.node, sumOfDist);
+                    }
                 }
             }
+            console.log("distances:", distances, "Priority Queue:", nodes, "Previous:");
         }
-        console.log("distances:", distances, "Priority Queue:", nodes, "Previous:");
+        return path.concat(smallest).reverse();
     }
 }
 const dijkstragraph = new WeightedGraph();
@@ -88,5 +98,5 @@ dijkstragraph.addEdge("C", "F", 5);
 dijkstragraph.addEdge("D", "F", 1);
 dijkstragraph.addEdge("D", "F", 1);
 dijkstragraph.addEdge("E", "F", 1);
-console.log(dijkstragraph.adjacencyList);
-//# sourceMappingURL=main.js.map
+console.log(dijkstragraph.dijkstraSearch("A", "E"));
+//# sourceMappingURL=Dijkstra_main.js.map

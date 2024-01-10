@@ -27,43 +27,42 @@ class Graph {
         this.adjacencyList.delete(vertex);
     }
     //iterativ
-    // depthFirst(startVertex: T): T[] {
-    //     const stack = [startVertex];
-    //     const result: T[] = [];
-    //     const visited: { [key: string]: boolean} = {};
-    //     let currentVertex: T | null = null;
-    //     visited[startVertex as string] = true;
-    //     while(stack.length) {
-    //         currentVertex = stack.pop() as T;
-    //         result.push(currentVertex);
-    //         this.adjacencyList.get(currentVertex)?.forEach((neighbor: T) => {
-    //             if(!visited[neighbor as string]){
-    //                 visited[neighbor as string] = true;
-    //                 stack.push(neighbor)
-    //             }
-    //         });
-    //     }
-    //     return result;
-    // }
-    // rekursiv
     depthFirst(startVertex) {
+        const stack = [startVertex];
         const result = [];
         const visited = {};
-        const adjacencyList = this.adjacencyList;
-        const depthFirstSearch = (vertex) => {
-            if (!vertex || visited[vertex.toString()])
-                return;
-            visited[vertex.toString()] = true;
-            result.push(vertex);
-            adjacencyList.get(vertex).forEach((neighbor) => {
+        let currentVertex = null;
+        visited[startVertex] = true;
+        while (stack.length) {
+            currentVertex = stack.pop();
+            result.push(currentVertex);
+            this.adjacencyList.get(currentVertex)?.forEach((neighbor) => {
                 if (!visited[neighbor]) {
-                    depthFirstSearch(neighbor);
+                    visited[neighbor] = true;
+                    stack.push(neighbor);
                 }
             });
-        };
-        depthFirstSearch(startVertex);
+        }
         return result;
     }
+    // rekursiv
+    // depthFirst(startVertex: T): T[] {
+    //     const result: T[] = [];
+    //     const visited: { [key: string]: boolean } = {};
+    //     const adjacencyList = this.adjacencyList;
+    //     const depthFirstSearch = (vertex: T) => {
+    //         if (!vertex || visited[vertex.toString()]) return;
+    //         visited[vertex.toString()] = true;
+    //         result.push(vertex);
+    //         adjacencyList.get(vertex).forEach((neighbor: T) => {
+    //             if (!visited[neighbor as string]) {
+    //                 depthFirstSearch(neighbor);
+    //             }
+    //         });
+    //     };
+    //     depthFirstSearch(startVertex);
+    //     return result;
+    // }
     breadthFirst(startVertex) {
         const queue = [startVertex];
         const result = [];
